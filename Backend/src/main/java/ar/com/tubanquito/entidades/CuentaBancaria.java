@@ -1,9 +1,6 @@
-package ar.com.tubanquito.entidades.cuenta;
+package ar.com.tubanquito.entidades;
 
 
-import ar.com.tubanquito.entidades.empresa.Empresa;
-import ar.com.tubanquito.entidades.usuario.Usuario;
-import ar.com.tubanquito.entidades.historial.HistorialTransacciones;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Table(name = "Cuenta_Bancaria")
+@Table(name = "cuenta_bancaria")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

@@ -1,6 +1,5 @@
-package ar.com.tubanquito.entidades.notificacion;
+package ar.com.tubanquito.entidades;
 
-import ar.com.tubanquito.entidades.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +9,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Notificacion")
+@Table(name = "notificaciones")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

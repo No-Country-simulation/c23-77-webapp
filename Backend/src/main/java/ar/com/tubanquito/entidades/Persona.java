@@ -1,7 +1,6 @@
-package ar.com.tubanquito.entidades.persona;
+package ar.com.tubanquito.entidades;
 
 
-import ar.com.tubanquito.entidades.empresa.Empresa;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Table(name = "Personas")
+@Table(name = "personas")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

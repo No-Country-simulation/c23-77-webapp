@@ -1,14 +1,13 @@
-package ar.com.tubanquito.entidades.direccion;
+package ar.com.tubanquito.entidades;
 
 
-import ar.com.tubanquito.entidades.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "Direccion")
+@Table(name = "direcciones")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

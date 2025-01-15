@@ -1,8 +1,6 @@
-package ar.com.tubanquito.entidades.trasnferencia;
+package ar.com.tubanquito.entidades;
 
 
-import ar.com.tubanquito.entidades.cuenta.CuentaBancaria;
-import ar.com.tubanquito.entidades.historial.HistorialTransacciones;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Table(name = "Transferencia")
+@Table(name = "transferencias")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

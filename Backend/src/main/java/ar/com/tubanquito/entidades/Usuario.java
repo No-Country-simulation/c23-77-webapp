@@ -1,22 +1,22 @@
-package ar.com.tubanquito.entidades.usuario;
+package ar.com.tubanquito.entidades;
 
-import ar.com.tubanquito.entidades.notificacion.Notificacion;
-import ar.com.tubanquito.entidades.archivo.ArchivosSubidos;
-import ar.com.tubanquito.entidades.cuenta.CuentaBancaria;
-import ar.com.tubanquito.entidades.direccion.Direccion;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
-@Table(name = "Usuario")
+@Table(name = "usuarios")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Data
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +34,8 @@ public class Usuario {
     @Column(name = "tipo_usuario", nullable = false, length = 50)
     private String tipoUsuario;
 
-    @Column(length = 512)
-    private String token;
-
-    @Column(length = 50)
-    private String rol;
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
 
     @OneToMany(mappedBy = "persona")
     private Set<Direccion> direccion;
@@ -50,5 +47,20 @@ public class Usuario {
     private Set<Notificacion> notificaciones;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ArchivosSubidos> archivosSubidos;
+    private Set<Archivo> archivosSubidos;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.contrasena;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
 }

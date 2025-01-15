@@ -1,6 +1,5 @@
-package ar.com.tubanquito.entidades.archivo;
+package ar.com.tubanquito.entidades;
 
-import ar.com.tubanquito.entidades.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,12 +10,12 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "Archivos_Subidos")
+@Table(name = "archivos_subidos")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ArchivosSubidos {
+public class Archivo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
