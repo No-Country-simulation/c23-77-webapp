@@ -1,7 +1,7 @@
-package ar.com.tubanquito.dominio.direccion;
+package ar.com.tubanquito.entidades.direccion;
 
 
-import ar.com.tubanquito.dominio.usuario.Usuario;
+import ar.com.tubanquito.entidades.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

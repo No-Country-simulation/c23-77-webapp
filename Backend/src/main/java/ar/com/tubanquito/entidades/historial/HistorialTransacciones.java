@@ -1,8 +1,8 @@
-package ar.com.tubanquito.dominio.historial;
+package ar.com.tubanquito.entidades.historial;
 
 
-import ar.com.tubanquito.dominio.cuenta.CuentaBancaria;
-import ar.com.tubanquito.dominio.trasnferencia.Transferencia;
+import ar.com.tubanquito.entidades.cuenta.CuentaBancaria;
+import ar.com.tubanquito.entidades.trasnferencia.Transferencia;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

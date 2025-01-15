@@ -1,6 +1,6 @@
-package ar.com.tubanquito.dominio.notificacion;
+package ar.com.tubanquito.entidades.notificacion;
 
-import ar.com.tubanquito.dominio.usuario.Usuario;
+import ar.com.tubanquito.entidades.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
