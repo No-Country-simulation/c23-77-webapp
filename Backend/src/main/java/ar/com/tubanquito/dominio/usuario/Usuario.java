@@ -5,10 +5,7 @@ import ar.com.tubanquito.dominio.archivo.ArchivosSubidos;
 import ar.com.tubanquito.dominio.cuenta.CuentaBancaria;
 import ar.com.tubanquito.dominio.direccion.Direccion;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
@@ -18,6 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@Data
 public class Usuario {
 
     @Id
