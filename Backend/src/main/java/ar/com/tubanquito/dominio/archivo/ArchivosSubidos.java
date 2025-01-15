@@ -1,4 +1,4 @@
-package ar.com.tubanquito.entity;
+package ar.com.tubanquito.dominio.archivo;
 
 import ar.com.tubanquito.dominio.usuario.Usuario;
 import jakarta.persistence.*;

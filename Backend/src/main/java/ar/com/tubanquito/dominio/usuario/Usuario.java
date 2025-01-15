@@ -1,5 +1,9 @@
-package ar.com.tubanquito.entity;
+package ar.com.tubanquito.dominio.usuario;
 
+import ar.com.tubanquito.dominio.notificacion.Notificacion;
+import ar.com.tubanquito.dominio.archivo.ArchivosSubidos;
+import ar.com.tubanquito.dominio.cuenta.CuentaBancaria;
+import ar.com.tubanquito.dominio.direccion.Direccion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
