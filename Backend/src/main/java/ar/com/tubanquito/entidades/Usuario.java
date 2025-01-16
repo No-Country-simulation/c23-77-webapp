@@ -37,7 +37,7 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
-    @OneToMany(mappedBy = "persona")
+    @OneToMany(mappedBy = "usuario")
     private Set<Direccion> direccion;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)

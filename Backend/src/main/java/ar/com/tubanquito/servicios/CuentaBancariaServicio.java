@@ -22,9 +22,22 @@ public class CuentaBancariaServicio implements CuentaBancariaServicioUI {
     
     @Override
     public List<CuentaBancaria> getAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+       return cuentasBancarias.findAll();
     }
+
+    @Override
+    public CuentaBancaria getAccountById(Long idAccount) {
+        CuentaBancaria account = cuentasBancarias.findById(idAccount)
+        .orElseThrow(() -> new NullPointerException("account not found"));
+        return account;
+    }
+
+    @Override
+    public List<CuentaBancaria> getAccountsByIdUser(Long idUser) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAccountsByIdUser'");
+    }
+
 
     @Override
     public AccountResponseDTO editAccount(AccountRequestEditDTO account) {
@@ -38,18 +51,7 @@ public class CuentaBancariaServicio implements CuentaBancariaServicioUI {
         throw new UnsupportedOperationException("Unimplemented method 'deleteAccount'");
     }
 
-    @Override
-    public CuentaBancaria getAccountById(Long idAccount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAccountById'");
-    }
-
-    @Override
-    public List<CuentaBancaria> getAccountsByIdUser(Long idUser) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAccountsByIdUser'");
-    }
-
+    
     @Override
     public AccountResponseDTO createAccount(CreateBankAccountDTO user) {
         // TODO Auto-generated method stub

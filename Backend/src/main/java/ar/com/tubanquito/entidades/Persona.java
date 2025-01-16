@@ -45,4 +45,6 @@ public class Persona {
 
     @ManyToMany(mappedBy = "personas")
     private Set<Empresa> empresas;
+
+    
 }
