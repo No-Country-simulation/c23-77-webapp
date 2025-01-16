@@ -1,0 +1,46 @@
+.Login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--950);
+}
+.Login h1 {
+  background: linear-gradient(to right, var(--900), var(--300));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.Login h2 {
+  color: var(--950);
+}
+.form-container {
+  display: flex;
+  align-items: center;
+  background-color: var(--50);
+  padding: 30px;
+}
+.form-content {
+  flex: 1;
+}
+.form-container button {
+  background-color: var(--950);
+  border-color: var(--950);
+}
+.form-container a {
+  color: black;
+  text-decoration: none;
+}
+.form-container h3 {
+  font-size: 14px;
+  margin-top: 5px;
+  background-color: var(--100);
+}
+.img-login {
+  background-color: var(--50);
+  flex: 0 0 auto;
+  max-width: 300px;
+}
+.img-login img {
+  width: 100%;
+  height: auto;
+}
