@@ -10,20 +10,23 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Table(name = "personas")
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "personas")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Persona {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100, nullable = false)
-    private String nombres;
+    @Column(nullable = false)
+    private String nombre;
+
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
+    private Usuario usuario;
 
     @Column(length = 100, nullable = false, name = "apellido_paterno")
     private String apPaterno;
@@ -42,7 +45,5 @@ public class Persona {
 
     @Column(unique = true, length = 20)
     private String dni;
-
-    @ManyToMany(mappedBy = "personas")
-    private Set<Empresa> empresas;
 }
+
