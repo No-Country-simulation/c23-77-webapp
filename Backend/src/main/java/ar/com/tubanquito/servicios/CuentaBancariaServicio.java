@@ -2,6 +2,7 @@ package ar.com.tubanquito.servicios;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -85,8 +86,21 @@ public class CuentaBancariaServicio implements CuentaBancariaServicioUI {
 
     @Override
     public void deleteAccount(Long idUser, Long idAccount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAccount'");
+        Usuario user =  usuarioRepositorio.findById(idUser).orElseThrow();
+        Iterator<CuentaBancaria> it = user
+        .getCuentasBancarias()
+        .iterator();
+
+        while (it.hasNext()) {
+            CuentaBancaria cuenta = it.next();
+            if (cuenta.getId() == idAccount) {
+                cuentasBancarias.deleteById(idAccount);
+                user.getCuentasBancarias().remove(cuenta);
+                break;
+            } 
+        }
+        
+        
     }
 
     
