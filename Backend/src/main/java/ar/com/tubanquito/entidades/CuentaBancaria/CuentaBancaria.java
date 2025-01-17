@@ -48,9 +48,8 @@ public class CuentaBancaria {
     @JoinColumn(name = "propietario_id")
     private Usuario usuario;
 
-
-    @ManyToMany(mappedBy = "cuentaBancarias")
-    private Set<Empresa> empresa;
+    @ManyToMany(mappedBy = "cuentasBancarias") // Nota: Corregido para que coincida
+    private Set<Empresa> empresas;
 
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
     private Set<HistorialTransacciones> historialTransacciones;

@@ -4,5 +4,6 @@ public enum Rol {
     ADMIN,
     PARTICULAR,
     EMPRESA,
+    EMPLEADO,
     SUPERADMIN
 }
