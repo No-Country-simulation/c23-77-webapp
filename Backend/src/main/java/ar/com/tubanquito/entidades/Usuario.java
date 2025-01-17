@@ -10,14 +10,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-@Table(name = "usuarios")
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "usuarios")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Usuario implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,11 +36,11 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
-    //@OneToMany(mappedBy = "persona")
-    //private Set<Direccion> direccion;
+    @OneToMany(mappedBy = "usuario")
+    private Set<Direccion> direccion;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
-    private Set<CuentaBancaria> cuentasBancaria;
+    private Set<CuentaBancaria> cuentasBancarias;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Notificacion> notificaciones;
@@ -49,17 +48,17 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Archivo> archivosSubidos;
 
-    @Override
+    @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    @Override
+    @Transient
     public String getPassword() {
         return this.contrasena;
     }
 
-    @Override
+    @Transient
     public String getUsername() {
         return this.email;
     }

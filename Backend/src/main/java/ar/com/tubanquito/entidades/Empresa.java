@@ -1,6 +1,5 @@
 package ar.com.tubanquito.entidades;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,32 +8,35 @@ import lombok.Setter;
 
 import java.util.Set;
 
-@Table(name = "empresas")
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "empresas")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Empresa {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
+    private Usuario usuario;
+
     @Column(nullable = false)
     private String nombre;
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(
-            name = "Empresas_Cuentas",
+            name = "empresas_cuentas", // Nombre de la tabla debe respetar snake_case
             joinColumns = @JoinColumn(name = "empresa_id"),
             inverseJoinColumns = @JoinColumn(name = "cuenta_id")
     )
-    private Set<CuentaBancaria> cuentaBancarias;
+    private Set<CuentaBancaria> cuentasBancarias;
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(
-            name = "Empresas_Empleados",
+            name = "empresas_empleados",
             joinColumns = @JoinColumn(name = "empresa_id"),
             inverseJoinColumns = @JoinColumn(name = "persona_id")
     )

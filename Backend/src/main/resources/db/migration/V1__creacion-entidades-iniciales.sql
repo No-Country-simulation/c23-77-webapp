@@ -1,5 +1,5 @@
--- Crear tabla Usuario
-CREATE TABLE Usuario
+-- Crear tabla usuario
+CREATE TABLE usuarios
 (
     id           SERIAL PRIMARY KEY,
     email        VARCHAR(255) NOT NULL UNIQUE,
@@ -10,8 +10,8 @@ CREATE TABLE Usuario
     rol          VARCHAR(50)
 );
 
--- Crear tabla Direccion
-CREATE TABLE Direccion
+-- Crear tabla direcciones
+CREATE TABLE direcciones
 (
     id               SERIAL PRIMARY KEY,
     calle            VARCHAR(255) NOT NULL,
@@ -19,18 +19,18 @@ CREATE TABLE Direccion
     estado_provincia VARCHAR(100),
     codigo_postal    VARCHAR(20),
     pais             VARCHAR(100) NOT NULL,
-    usuario_id       INT UNIQUE REFERENCES Usuario (id)
+    usuario_id       INT UNIQUE REFERENCES usuarios (id)
 );
 
--- Crear tabla Empresas
-CREATE TABLE Empresas
+-- Crear tabla empresas
+CREATE TABLE empresas
 (
     id     SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL
 );
 
--- Crear tabla Personas
-CREATE TABLE Personas
+-- Crear tabla personas
+CREATE TABLE personas
 (
     id               SERIAL PRIMARY KEY,
     nombres          VARCHAR(100) NOT NULL,
@@ -42,77 +42,74 @@ CREATE TABLE Personas
     dni              VARCHAR(20) UNIQUE
 );
 
--- Crear tabla Cuenta Bancaria
-CREATE TABLE Cuenta_Bancaria
+-- Crear tabla cuentas_bancarias
+CREATE TABLE cuentas_bancarias
 (
     id             SERIAL PRIMARY KEY,
-    propietario_id INT            NOT NULL,
+    propietario_id INT            NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE,
     moneda         VARCHAR(10)    NOT NULL,
     saldo          NUMERIC(15, 2) NOT NULL DEFAULT 0.0,
-    tipo_de_cuenta VARCHAR(50)    NOT NULL,
+    tipo_cuenta    VARCHAR(50)    NOT NULL,
     fecha_creacion DATE                    DEFAULT CURRENT_DATE,
-    banco_emisor   VARCHAR(255),
-    CONSTRAINT propietario_fk FOREIGN KEY (propietario_id) REFERENCES Usuario (id)
-        ON DELETE CASCADE
+    banco_emisor   VARCHAR(255)
 );
 
--- Crear tabla Transferencia
-CREATE TABLE Transferencia
+-- Crear tabla transferencias
+CREATE TABLE transferencias
 (
     id             SERIAL PRIMARY KEY,
     monto          NUMERIC(15, 2) NOT NULL,
-    cuenta_origen  INT            NOT NULL REFERENCES Cuenta_Bancaria (id),
-    cuenta_destino INT            NOT NULL REFERENCES Cuenta_Bancaria (id),
+    cuenta_origen  INT            NOT NULL REFERENCES cuentas_bancarias (id),
+    cuenta_destino INT            NOT NULL REFERENCES cuentas_bancarias (id),
     fecha          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     estado         VARCHAR(50)    NOT NULL,
     notas          TEXT
 );
 
--- Crear tabla Historial de Transacciones
-CREATE TABLE Historial_Transacciones
+-- Crear tabla historial_transacciones
+CREATE TABLE historial_transacciones
 (
     id               SERIAL PRIMARY KEY,
     tipo_transaccion VARCHAR(50)    NOT NULL,
     monto            NUMERIC(15, 2) NOT NULL,
     fecha            TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    cuenta_id        INT            NOT NULL REFERENCES Cuenta_Bancaria (id)
-        ON DELETE CASCADE
+    cuenta_id        INT            NOT NULL REFERENCES cuentas_bancarias (id) ON DELETE CASCADE
 );
 
--- Crear tabla Notificacion
-CREATE TABLE Notificacion
+-- Crear tabla notificaciones
+CREATE TABLE notificaciones
 (
     id             SERIAL PRIMARY KEY,
-    usuario_id     INT         NOT NULL REFERENCES Usuario (id),
+    usuario_id     INT         NOT NULL REFERENCES usuarios (id),
     tipo           VARCHAR(50) NOT NULL,
     mensaje        TEXT        NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     leido          BOOLEAN   DEFAULT FALSE
 );
 
--- Crear relacion entre Empresas y Cuenta Bancaria (muchas cuentas por empresa)
-CREATE TABLE Empresas_Cuentas
+-- Crear relación entre empresas y cuentas bancarias (muchas cuentas por empresa)
+CREATE TABLE empresas_cuentas
 (
-    empresa_id INT NOT NULL REFERENCES Empresas (id),
-    cuenta_id  INT NOT NULL REFERENCES Cuenta_Bancaria (id),
+    empresa_id INT NOT NULL REFERENCES empresas (id),
+    cuenta_id  INT NOT NULL REFERENCES cuentas_bancarias (id),
     PRIMARY KEY (empresa_id, cuenta_id)
 );
 
--- Crear relacion entre Empresas y Personas (empleados)
-CREATE TABLE Empresas_Empleados
+-- Crear relación entre empresas y personas (empleados)
+CREATE TABLE empresas_empleados
 (
-    empresa_id INT NOT NULL REFERENCES Empresas (id),
-    persona_id INT NOT NULL REFERENCES Personas (id),
+    empresa_id INT NOT NULL REFERENCES empresas (id),
+    persona_id INT NOT NULL REFERENCES personas (id),
     PRIMARY KEY (empresa_id, persona_id)
 );
 
--- Crear tabla Archivos_Subidos
-CREATE TABLE Archivos_Subidos
+-- Crear tabla archivos_subidos
+CREATE TABLE archivos_subidos
 (
     id             SERIAL PRIMARY KEY,
-    usuario_id     INT          NOT NULL REFERENCES Usuario (id) ON DELETE CASCADE,
+    usuario_id     INT          NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE,
     nombre_archivo VARCHAR(255) NOT NULL,
     ruta_archivo   TEXT         NOT NULL,
-    tipo_archivo   VARCHAR(50), -- Ejemplo: 'imagen', 'pdf', 'documento', etc.
+    tipo_archivo   VARCHAR(50), -- ejemplo: 'imagen', 'pdf', 'documento', etc.
     fecha_subida   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

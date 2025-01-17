@@ -1,6 +1,5 @@
 package ar.com.tubanquito.entidades;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Table(name = "cuenta_bancaria")
+@Table(name = "cuentas_bancarias")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,9 +41,8 @@ public class CuentaBancaria {
     @JoinColumn(name = "propietario_id")
     private Usuario usuario;
 
-
-    @ManyToMany(mappedBy = "cuentaBancarias")
-    private Set<Empresa> empresa;
+    @ManyToMany(mappedBy = "cuentasBancarias") // Nota: Corregido para que coincida
+    private Set<Empresa> empresas;
 
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
     private Set<HistorialTransacciones> historialTransacciones;
