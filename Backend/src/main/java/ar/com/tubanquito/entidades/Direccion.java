@@ -28,7 +28,7 @@ public class Direccion {
     private String estadoProvincia;
 
     @Column(length = 20)
-    private String cp;
+    private String codigoPostal;
 
     @Column(length = 100, nullable = false)
     private String pais;
