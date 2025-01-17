@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.util.Set;
 
+import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancaria;
+
 @Table(name = "empresas")
 @Entity
 @AllArgsConstructor

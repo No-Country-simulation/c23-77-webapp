@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
+import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancaria;
+
 @Table(name = "transferencias")
 @Entity
 @AllArgsConstructor

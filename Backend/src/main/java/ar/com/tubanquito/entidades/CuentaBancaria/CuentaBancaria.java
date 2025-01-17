@@ -1,8 +1,9 @@
-package ar.com.tubanquito.entidades;
+package ar.com.tubanquito.entidades.CuentaBancaria;
 
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,12 +12,17 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
+import ar.com.tubanquito.entidades.Empresa;
+import ar.com.tubanquito.entidades.HistorialTransacciones;
+import ar.com.tubanquito.entidades.Usuario;
+
 @Table(name = "cuenta_bancaria")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class CuentaBancaria {
 
     @Id

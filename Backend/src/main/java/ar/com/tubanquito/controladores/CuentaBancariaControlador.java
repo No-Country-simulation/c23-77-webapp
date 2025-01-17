@@ -38,7 +38,7 @@ public class CuentaBancariaControlador {
     }
     
     @GetMapping("/users/{id}")
-    public ResponseEntity<?> getAccountByUserId(@PathVariable Long id) {
+    public ResponseEntity<?> getAccountsByUserId(@PathVariable Long id) {
         return ResponseEntity.ok(cuentaBancariaServicio.getAccountsByIdUser(id));
     }
 
