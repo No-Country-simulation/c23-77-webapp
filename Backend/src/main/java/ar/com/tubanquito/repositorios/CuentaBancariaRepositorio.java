@@ -1,4 +1,4 @@
-package ar.com.tubanquito.repositorio;
+package ar.com.tubanquito.repositorios;
 
 import java.util.List;
 

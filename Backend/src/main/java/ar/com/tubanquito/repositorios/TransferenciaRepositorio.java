@@ -1,4 +1,4 @@
-package ar.com.tubanquito.repositorio;
+package ar.com.tubanquito.repositorios;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

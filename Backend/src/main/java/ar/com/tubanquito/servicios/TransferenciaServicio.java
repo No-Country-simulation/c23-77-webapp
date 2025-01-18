@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ar.com.tubanquito.entidades.Transferencia;
-import ar.com.tubanquito.repositorio.TransferenciaRepositorio;
+import ar.com.tubanquito.repositorios.TransferenciaRepositorio;
 
 @Service
 public class TransferenciaServicio {

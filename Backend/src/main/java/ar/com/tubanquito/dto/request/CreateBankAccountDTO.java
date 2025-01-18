@@ -1,10 +1,6 @@
 package ar.com.tubanquito.dto.request;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Set;
-
-import ar.com.tubanquito.entidades.Empresa;
 import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancariaTipo;
 import ar.com.tubanquito.entidades.CuentaBancaria.Moneda;
 
@@ -17,3 +13,13 @@ public record CreateBankAccountDTO(
 ){
 
 }
+
+/** 
+     
+    @ManyToMany(mappedBy = "cuentaBancarias")
+    private Set<Empresa> empresa;
+
+    @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
+    private Set<HistorialTransacciones> historialTransacciones;
+*/
+    

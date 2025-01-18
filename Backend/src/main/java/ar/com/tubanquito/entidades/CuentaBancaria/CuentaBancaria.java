@@ -41,7 +41,7 @@ public class CuentaBancaria {
     @Column(name = "fecha_creacion")
     private LocalDate fechaCreacion;
 
-    @Column(name = "banco_emisor")
+    @Column(name = "banco_emisor", nullable = true)
     private String bancoEmisor;
 
     @ManyToOne

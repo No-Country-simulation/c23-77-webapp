@@ -17,7 +17,8 @@ import ar.com.tubanquito.entidades.HistorialTransacciones;
 import ar.com.tubanquito.entidades.Usuario;
 import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancaria;
 import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancariaTipo;
-import ar.com.tubanquito.repositorio.CuentaBancariaRepositorio;
+import ar.com.tubanquito.mapper.CuentaBancariaMapper;
+import ar.com.tubanquito.repositorios.CuentaBancariaRepositorio;
 import ar.com.tubanquito.repositorios.UsuarioRepositorio;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.transaction.Transactional;
 
 @Service
 public class CuentaBancariaServicio implements CuentaBancariaServicioUI {
@@ -36,6 +38,9 @@ public class CuentaBancariaServicio implements CuentaBancariaServicioUI {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
+
+    @Autowired 
+    private CuentaBancariaMapper mapper;
 
 
     @Override
@@ -57,22 +62,19 @@ public class CuentaBancariaServicio implements CuentaBancariaServicioUI {
     }
 
     @Override
-    public AccountResponseDTO createAccount(CreateBankAccountDTO account) {
+    @Transactional
+    public AccountResponseDTO createAccount(CreateBankAccountDTO account) throws Exception {
         
         Usuario user  = usuarioRepositorio
         .findById(account.idUsuario())
         .orElseThrow(() -> new NullPointerException("USER not found"));
 
-        CuentaBancaria cuentaBancaria = CuentaBancaria
-        .builder()
-        .usuario(user)
-        .tipoCuenta(account.tipo().toString())
-        .saldo(account.saldoInicial())
-        .moneda("USD")
-        .build();
-
+        CuentaBancaria cuentaBancaria = mapper.buildAccount(account, user);
         cuentasBancarias.save(cuentaBancaria);
-        return toGetDTO(cuentaBancaria);
+
+        user.getCuentasBancarias().add(cuentaBancaria);
+        usuarioRepositorio.save(user);
+        return mapper.toGetDTO(cuentaBancaria);
     }
 
 
@@ -84,7 +86,8 @@ public class CuentaBancariaServicio implements CuentaBancariaServicioUI {
     }
 
     @Override
-    public void deleteAccount(Long idUser, Long idAccount) {
+    @Transactional
+    public void deleteAccount(Long idUser, Long idAccount) throws Exception{
         Usuario user =  usuarioRepositorio.findById(idUser).orElseThrow();
         Iterator<CuentaBancaria> it = user
         .getCuentasBancarias()
@@ -101,44 +104,6 @@ public class CuentaBancariaServicio implements CuentaBancariaServicioUI {
         
         
     }
+  
 
-    
-    private AccountResponseDTO toGetDTO(CuentaBancaria cuenta){
-
-        return AccountResponseDTO.builder()
-        .name(cuenta.getUsuario().getUsername())
-        .status("CREATED")
-        .saldo(cuenta.getSaldo())
-        .tipo(cuenta.getTipoCuenta().toString())
-        .build();
-    }   
-/** 
-     
-    @Column(length = 10, nullable = false)
-    private String moneda;
-
-    @Column(precision = 15, scale = 2, nullable = false)
-    private BigDecimal saldo;
-
-    @Column(length = 50, nullable = false)
-    private String tipoCuenta;
-
-    @Column(name = "fecha_creacion")
-    private LocalDate fechaCreacion;
-
-    @Column(name = "banco_emisor")
-    private String bancoEmisor;
-
-    @ManyToOne
-    @JoinColumn(name = "propietario_id")
-    private Usuario usuario;
-
-
-    @ManyToMany(mappedBy = "cuentaBancarias")
-    private Set<Empresa> empresa;
-
-    @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
-    private Set<HistorialTransacciones> historialTransacciones;
-*/
-    
 }
