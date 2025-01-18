@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import ar.com.tubanquito.dto.request.AccountRequestEditDTO;
 import ar.com.tubanquito.dto.request.CreateBankAccountDTO;
 
@@ -19,7 +18,7 @@ import ar.com.tubanquito.entidades.Usuario;
 import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancaria;
 import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancariaTipo;
 import ar.com.tubanquito.repositorio.CuentaBancariaRepositorio;
-import ar.com.tubanquito.repositorio.UsuarioRepositorio;
+import ar.com.tubanquito.repositorios.UsuarioRepositorio;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -47,7 +46,7 @@ public class CuentaBancariaServicio implements CuentaBancariaServicioUI {
     @Override
     public CuentaBancaria getAccountById(Long idAccount) {
         CuentaBancaria account = cuentasBancarias.findById(idAccount)
-        .orElseThrow(() -> new NullPointerException("account not found"));
+        .orElseThrow(() -> new ar.com.tubanquito.infra.error.BankAccountNotFoundException("account not found"));
         return account;
     }
 

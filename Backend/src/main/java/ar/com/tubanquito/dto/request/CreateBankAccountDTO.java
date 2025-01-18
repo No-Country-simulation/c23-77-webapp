@@ -6,11 +6,13 @@ import java.util.Set;
 
 import ar.com.tubanquito.entidades.Empresa;
 import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancariaTipo;
+import ar.com.tubanquito.entidades.CuentaBancaria.Moneda;
 
 public record CreateBankAccountDTO(
     Long idUsuario,
     CuentaBancariaTipo tipo,
-    BigDecimal saldoInicial
+    BigDecimal saldoInicial,
+    Moneda tipoMoneda
     
 ){
 

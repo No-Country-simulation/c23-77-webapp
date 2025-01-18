@@ -1,8 +1,8 @@
-package ar.com.tubanquito.Exception;
+package ar.com.tubanquito.infra.error;
 
 public class BankAccountNotFoundException extends RuntimeException {
-    
-    BankAccountNotFoundException(String e){
+ 
+    public BankAccountNotFoundException(String e){
         super(e);
     }
 }
