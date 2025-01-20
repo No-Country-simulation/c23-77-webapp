@@ -81,4 +81,13 @@ public class GlobalExceptionHandler {
         .builder()
         .error("Cuenta bancaria no encontrada:" + e.getMessage()));
     }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<?> handleNullPointerException(NullPointerException e){
+        return ResponseEntity
+        .badRequest()
+        .body(ErrorResponseDTO
+        .builder()
+        .error("Excepcion de punto nulo:" + e.getMessage()));
+    }
 }

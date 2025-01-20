@@ -1,13 +1,21 @@
 package ar.com.tubanquito.dto.request;
 
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancariaTipo;
 import ar.com.tubanquito.entidades.CuentaBancaria.Moneda;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 
 public record CreateBankAccountDTO(
-    Long idUsuario,
+    
+    
+ 
+    Long id,
     CuentaBancariaTipo tipo,
-    BigDecimal saldoInicial,
+    Double saldoInicial,
     Moneda tipoMoneda
     
 ){

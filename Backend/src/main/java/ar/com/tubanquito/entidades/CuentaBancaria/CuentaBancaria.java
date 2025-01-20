@@ -2,6 +2,7 @@ package ar.com.tubanquito.entidades.CuentaBancaria;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,7 +31,7 @@ public class CuentaBancaria {
     private long id;
 
     @Column(length = 10, nullable = false)
-    private String moneda;
+    private Moneda moneda;
 
     @Column(precision = 15, scale = 2, nullable = false)
     private BigDecimal saldo;

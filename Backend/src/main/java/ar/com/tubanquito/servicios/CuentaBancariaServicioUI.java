@@ -9,12 +9,12 @@ import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancaria;
 
 public interface CuentaBancariaServicioUI {
     
-    public List<CuentaBancaria> getAll();
-    public CuentaBancaria getAccountById(Long idAccount);
-    public List<CuentaBancaria> getAccountsByIdUser(Long idUser);
+    public List<AccountResponseDTO> getAll();
+    public AccountResponseDTO getAccountById(Long idAccount);
+    public List<AccountResponseDTO> getAccountsByIdUser(Long idUser);
     
     public AccountResponseDTO createAccount(CreateBankAccountDTO account) throws Exception;
-    public AccountResponseDTO editAccount(AccountRequestEditDTO account);
+    public AccountResponseDTO editAccount(Long idUser, Long idAccount, AccountRequestEditDTO account);
 
     public void deleteAccount(Long idUser, Long idAccount) throws Exception;
 

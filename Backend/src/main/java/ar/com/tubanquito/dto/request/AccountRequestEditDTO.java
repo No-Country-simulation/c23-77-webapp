@@ -1,7 +1,9 @@
 package ar.com.tubanquito.dto.request;
 
-public record AccountRequestEditDTO(
+import java.math.BigDecimal;
 
+public record AccountRequestEditDTO(
+    BigDecimal saldo
 ) {
 
 }

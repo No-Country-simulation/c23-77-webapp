@@ -44,29 +44,31 @@ public class CuentaBancariaServicio implements CuentaBancariaServicioUI {
 
 
     @Override
-    public List<CuentaBancaria> getAll() {
-       return cuentasBancarias.findAll();
+    public List<AccountResponseDTO> getAll() {
+       return cuentasBancarias
+       .findAll()
+       .stream()
+       .map(mapper::toGetDTO)
+       .toList();
     }
 
     @Override
-    public CuentaBancaria getAccountById(Long idAccount) {
+    public AccountResponseDTO getAccountById(Long idAccount) {
         CuentaBancaria account = cuentasBancarias.findById(idAccount)
         .orElseThrow(() -> new ar.com.tubanquito.infra.error.BankAccountNotFoundException("account not found"));
-        return account;
+        return mapper.toGetDTO(account);
     }
 
     @Override
-    public List<CuentaBancaria> getAccountsByIdUser(Long idUser) {
+    public List<AccountResponseDTO> getAccountsByIdUser(Long idUser) {
         List<CuentaBancaria> cuentas = cuentasBancarias.findByUsuarioId(idUser);
-        return cuentas;
+        return cuentas.stream().map(mapper::toGetDTO).toList();
     }
 
     @Override
-    @Transactional
-    public AccountResponseDTO createAccount(CreateBankAccountDTO account) throws Exception {
-        
+    public AccountResponseDTO createAccount(CreateBankAccountDTO account) throws Exception {   
         Usuario user  = usuarioRepositorio
-        .findById(account.idUsuario())
+        .findById(account.id())
         .orElseThrow(() -> new NullPointerException("USER not found"));
 
         CuentaBancaria cuentaBancaria = mapper.buildAccount(account, user);
@@ -80,7 +82,7 @@ public class CuentaBancariaServicio implements CuentaBancariaServicioUI {
 
 
     @Override
-    public AccountResponseDTO editAccount(AccountRequestEditDTO account) {
+    public AccountResponseDTO editAccount(Long idUser, Long idAccount, AccountRequestEditDTO account) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
     }

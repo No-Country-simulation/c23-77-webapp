@@ -33,8 +33,8 @@ public class Usuario implements UserDetails {
     @Column(length = 20)
     private String telefono;
 
-    @Column(name = "tipo_usuario", nullable = false, length = 50)
-    private String tipoUsuario;
+    //@Column(name = "tipo_usuario", nullable = false, length = 50)
+    //private String tipoUsuario;
 
     @Enumerated(EnumType.STRING)
     private Rol rol;
