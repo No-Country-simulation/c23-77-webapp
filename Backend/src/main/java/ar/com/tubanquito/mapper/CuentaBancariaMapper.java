@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import ar.com.tubanquito.dto.request.AccountRequestEditDTO;
 import ar.com.tubanquito.dto.request.CreateBankAccountDTO;
 import ar.com.tubanquito.dto.response.AccountResponseDTO;
 import ar.com.tubanquito.entidades.Usuario;
@@ -23,7 +24,7 @@ public class CuentaBancariaMapper {
      public AccountResponseDTO toGetDTO(CuentaBancaria cuenta){
 
         return AccountResponseDTO.builder()
-        .name(cuenta.getUsuario().getUsername())
+        .email(cuenta.getUsuario().getUsername())
         .status("CREATED")
         .saldo(cuenta.getSaldo())
         .tipo(cuenta.getTipoCuenta().toString())
@@ -31,7 +32,6 @@ public class CuentaBancariaMapper {
     }   
 
     public CuentaBancaria buildAccount(CreateBankAccountDTO account, Usuario user) throws Exception{
-        System.out.println("ID ES :" + user.getId());
         //verifyData(account);
         
         return CuentaBancaria
@@ -43,6 +43,11 @@ public class CuentaBancariaMapper {
         .fechaCreacion(LocalDate.now())
         .build();
        
+    }
+
+    public CuentaBancaria editAccount(CuentaBancaria account, AccountRequestEditDTO edit){
+        account.setSaldo(edit.saldo());
+        return account;
     }
 
     private void verifyData(CreateBankAccountDTO account) throws Exception{

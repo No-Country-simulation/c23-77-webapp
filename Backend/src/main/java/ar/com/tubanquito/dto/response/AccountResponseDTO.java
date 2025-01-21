@@ -7,7 +7,7 @@ import lombok.Builder;
 
 @Builder
 public record AccountResponseDTO(
-    String name,
+    String email,
     BigDecimal saldo,
     String tipo,
     String status

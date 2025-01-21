@@ -17,6 +17,7 @@ import ar.com.tubanquito.entidades.HistorialTransacciones;
 import ar.com.tubanquito.entidades.Usuario;
 import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancaria;
 import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancariaTipo;
+import ar.com.tubanquito.infra.error.BankAccountNotFoundException;
 import ar.com.tubanquito.mapper.CuentaBancariaMapper;
 import ar.com.tubanquito.repositorios.CuentaBancariaRepositorio;
 import ar.com.tubanquito.repositorios.UsuarioRepositorio;
@@ -82,9 +83,24 @@ public class CuentaBancariaServicio implements CuentaBancariaServicioUI {
 
 
     @Override
-    public AccountResponseDTO editAccount(Long idUser, Long idAccount, AccountRequestEditDTO account) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
+    public AccountResponseDTO editAccount(Long idUser, Long idAccount, AccountRequestEditDTO accountR) {
+        
+        Usuario user = usuarioRepositorio
+        .findById(idUser)
+        .orElseThrow(() -> new NullPointerException("User not found"));
+
+        CuentaBancaria account = user
+        .getCuentasBancarias()
+        .stream()
+        .filter(a -> a.getId() == idAccount)
+        .findFirst()
+        .orElseThrow(() -> new BankAccountNotFoundException("account not found"));
+        
+        account = mapper.editAccount(account, accountR);
+        cuentasBancarias.save(account);
+        return mapper.toGetDTO(account);
+       
+        
     }
 
     @Override
