@@ -39,8 +39,8 @@ public class UsuarioServicio {
     }
 
     public UsuarioResponse crearUsuario(UsuarioRequest request) {
-        validadores.forEach(v -> v.validar(request)); // Ejecuta todas las validaciones
-
+        // Ejecutar validaciones
+        validadores.forEach(v -> v.validar(request));
 
         // Mapear el DTO a la entidad
         Usuario usuario = usuarioMapper.toEntity(request);
@@ -48,9 +48,7 @@ public class UsuarioServicio {
         // Encriptar la contraseña antes de guardar
         usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
 
-        usuario.setRol(Rol.PARTICULAR); // Asignar un rol por defecto
         Usuario guardado = usuarioRepositorio.save(usuario);
-
         return usuarioMapper.toResponse(guardado);
     }
 
@@ -73,6 +71,7 @@ public class UsuarioServicio {
 
         usuario.setEmail(request.email());
         usuario.setTelefono(request.telefono());
+        usuario.setRol(Rol.valueOf(request.rol().toUpperCase())); // Actualizar rol
 
         // Encriptar la contraseña solo si se actualiza
         if (request.contrasena() != null && !request.contrasena().isBlank()) {

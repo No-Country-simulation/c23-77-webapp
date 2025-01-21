@@ -19,24 +19,38 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-//    private final SecurityFilter securityFilter;
-//
-//    public SecurityConfig(SecurityFilter securityFilter) {
-//        this.securityFilter = securityFilter;
-//    }
+    private final SecurityFilter securityFilter;
+
+    public SecurityConfig(SecurityFilter securityFilter) {
+        this.securityFilter = securityFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers("/login", "/usuarios/registro", "/").permitAll();
+                    // Endpoints públicos
+                    req.requestMatchers("/login", "/").permitAll();
+                    req.requestMatchers(HttpMethod.POST, "/personas", "/usuarios/registro").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "/personas", "/usuarios/registro").permitAll();
                     req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
-//                    req.anyRequest().authenticated();
+                    req.requestMatchers(HttpMethod.GET, "/persona/**").permitAll(); // Si deben ser públicos
+
+                    // Endpoints protegidos
+                    req.requestMatchers("/dashboard").authenticated();
+                    req.requestMatchers(HttpMethod.POST, "/personas/**").authenticated();
+                    req.requestMatchers(HttpMethod.PUT, "/personas/**").authenticated();
+                    req.requestMatchers(HttpMethod.DELETE, "/personas/**").hasRole("ADMIN"); // Solo administradores
+
+                    // Cualquier otra solicitud requiere autenticación
+                    req.anyRequest().authenticated();
                 })
-//                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                // Aquí puedes agregar filtros adicionales, si es necesario
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {

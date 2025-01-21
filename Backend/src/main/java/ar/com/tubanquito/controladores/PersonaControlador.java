@@ -2,8 +2,6 @@ package ar.com.tubanquito.controladores;
 
 import ar.com.tubanquito.dto.request.PersonaRequest;
 import ar.com.tubanquito.dto.response.PersonaResponse;
-import ar.com.tubanquito.entidades.Persona;
-import ar.com.tubanquito.entidades.Usuario;
 import ar.com.tubanquito.servicios.PersonaServicio;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -33,13 +31,13 @@ public class PersonaControlador {
     }
 
     @GetMapping
-    public ResponseEntity<List<Persona>> listarPersonas() {
+    public ResponseEntity<List<PersonaResponse>> listarPersonas() {
         return ResponseEntity.ok(personaServicio.listarPersonas());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Persona> actualizarPersona(@PathVariable Long id, @RequestBody Persona persona) {
-        return ResponseEntity.ok(personaServicio.actualizarPersona(id, persona));
+    public ResponseEntity<PersonaResponse> actualizarPersona(@PathVariable Long id, @RequestBody @Valid PersonaRequest request) {
+        return ResponseEntity.ok(personaServicio.actualizarPersona(id, request));
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('SUPERADMIN')")

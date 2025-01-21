@@ -2,6 +2,7 @@ package ar.com.tubanquito.mapper;
 
 import ar.com.tubanquito.dto.request.UsuarioRequest;
 import ar.com.tubanquito.dto.response.UsuarioResponse;
+import ar.com.tubanquito.entidades.Rol;
 import ar.com.tubanquito.entidades.Usuario;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ public class UsuarioMapper {
         usuario.setEmail(request.email());
         usuario.setContrasena(request.contrasena()); // Contraseña sin encriptar
         usuario.setTelefono(request.telefono());
+        usuario.setRol(Rol.valueOf(request.rol().toUpperCase())); // Convertir String a Enum
         return usuario;
     }
 

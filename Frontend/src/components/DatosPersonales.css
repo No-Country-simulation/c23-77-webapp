@@ -1,0 +1,17 @@
+.DatosPersonales {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--950);
+}
+
+.DatosPersonales h2 {
+  color: var(--950);
+}
+
+.DatosPersonales .form-container {
+  display: flex;
+  align-items: center;
+  background-color: var(--50);
+  padding: 30px;
+}

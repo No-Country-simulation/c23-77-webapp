@@ -43,22 +43,27 @@ public class PersonaServicio {
         return personaMapper.toResponse(persona);
     }
 
-    public List<Persona> listarPersonas() {
-        return personaRepositorio.findAll();
+    public List<PersonaResponse> listarPersonas() {
+        return personaRepositorio.findAll()
+                .stream()
+                .map(personaMapper::toResponse)
+                .toList();
     }
 
-    public Persona actualizarPersona(Long id, Persona personaActualizada) {
-        Persona persona = personaRepositorio.findById(id).orElseThrow(() -> new RuntimeException("Persona no encontrada"));
+    public PersonaResponse actualizarPersona(Long id, PersonaRequest request) {
+        Persona persona = personaRepositorio.findById(id)
+                .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
 
-        persona.setNombre(personaActualizada.getNombre());
-        persona.setApPaterno(personaActualizada.getApPaterno());
-        persona.setApMaterno(personaActualizada.getApMaterno());
-        persona.setSexo(personaActualizada.getSexo());
-        persona.setLugarNacimiento(personaActualizada.getLugarNacimiento());
-        persona.setFechaNacimiento(personaActualizada.getFechaNacimiento());
-        persona.setDni(personaActualizada.getDni());
+        persona.setNombre(request.nombre());
+        persona.setApPaterno(request.apPaterno());
+        persona.setApMaterno(request.apMaterno());
+        persona.setSexo(request.sexo());
+        persona.setLugarNacimiento(request.lugarNacimiento());
+        persona.setFechaNacimiento(request.fechaNacimiento());
+        persona.setDni(request.dni());
 
-        return personaRepositorio.save(persona);
+        Persona actualizada = personaRepositorio.save(persona);
+        return personaMapper.toResponse(actualizada);
     }
 
     public void eliminarPersona(Long id) {
@@ -67,6 +72,5 @@ public class PersonaServicio {
 
         personaRepositorio.delete(persona);
     }
-
-
 }
+
