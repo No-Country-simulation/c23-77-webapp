@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import ar.com.tubanquito.dto.response.ErrorResponseDTO;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,5 +71,23 @@ public class GlobalExceptionHandler {
         response.put("error", "Error interno");
         response.put("message", ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
+    @ExceptionHandler(BankAccountNotFoundException.class)
+    public ResponseEntity<?> handleBankAccountNotFoundException(BankAccountNotFoundException e){
+        return ResponseEntity
+        .badRequest()
+        .body(ErrorResponseDTO
+        .builder()
+        .error("Cuenta bancaria no encontrada:" + e.getMessage()));
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<?> handleNullPointerException(NullPointerException e){
+        return ResponseEntity
+        .badRequest()
+        .body(ErrorResponseDTO
+        .builder()
+        .error("Excepcion de punto nulo:" + e.getMessage()));
     }
 }

@@ -35,5 +35,4 @@ public class Notificacion {
 
     @Column(nullable = false)
     private Boolean leido;
-
 }

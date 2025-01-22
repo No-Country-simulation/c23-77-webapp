@@ -1,6 +1,7 @@
 package ar.com.tubanquito.controladores;
 
 import ar.com.tubanquito.dto.request.NotificacionRequest;
+import ar.com.tubanquito.dto.response.NotificacionResponse;
 import ar.com.tubanquito.entidades.Notificacion;
 import ar.com.tubanquito.servicios.NotificacionServicio;
 import org.aspectj.weaver.ast.Not;
@@ -23,12 +24,19 @@ public class NotificacionControlador {
     @PostMapping("")
     public ResponseEntity<String> creacionNotificacion(@RequestBody NotificacionRequest notificacion){
         notificacionServicio.creacionNotificacion(notificacion);
-        return ResponseEntity.ok("Notificación creada correctamente" + notificacion.toString());
+        return ResponseEntity.ok("Notificación creada correctamente");
     }
 
     @PatchMapping("/leido/{id}")
     public ResponseEntity<String> marcarLeido(@PathVariable Long id){
         notificacionServicio.confirmarLeido(id);
         return ResponseEntity.ok("Marcado Exitosamente");
+    }
+
+    @GetMapping("/todas/{id}")
+    public ResponseEntity<List<NotificacionResponse>> obtenerNotificaciones(@PathVariable Long id){
+        List<NotificacionResponse> resultado = notificacionServicio.obtenerNotificacionesporId(id);
+
+        return ResponseEntity.ok(resultado);
     }
 }

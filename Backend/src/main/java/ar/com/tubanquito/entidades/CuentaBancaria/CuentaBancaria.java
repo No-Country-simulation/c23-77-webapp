@@ -1,7 +1,10 @@
-package ar.com.tubanquito.entidades;
+package ar.com.tubanquito.entidades.CuentaBancaria;
+
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,12 +13,17 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Table(name = "cuentas_bancarias")
+import ar.com.tubanquito.entidades.Empresa;
+import ar.com.tubanquito.entidades.HistorialTransacciones;
+import ar.com.tubanquito.entidades.Usuario;
+
+@Table(name = "cuenta_bancaria")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class CuentaBancaria {
 
     @Id
@@ -23,7 +31,7 @@ public class CuentaBancaria {
     private long id;
 
     @Column(length = 10, nullable = false)
-    private String moneda;
+    private Moneda moneda;
 
     @Column(precision = 15, scale = 2, nullable = false)
     private BigDecimal saldo;
@@ -34,7 +42,7 @@ public class CuentaBancaria {
     @Column(name = "fecha_creacion")
     private LocalDate fechaCreacion;
 
-    @Column(name = "banco_emisor")
+    @Column(name = "banco_emisor", nullable = true)
     private String bancoEmisor;
 
     @ManyToOne

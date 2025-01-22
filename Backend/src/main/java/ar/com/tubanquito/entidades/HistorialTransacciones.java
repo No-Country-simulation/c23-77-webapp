@@ -10,6 +10,8 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancaria;
+
 @Table(name = "historial_transacciones")
 @Entity
 @AllArgsConstructor

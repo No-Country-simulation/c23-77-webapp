@@ -10,7 +10,7 @@ ALTER TABLE direcciones
 -- Alteraciones para la tabla personas
 -- Agregar la columna 'usuario_id'
 ALTER TABLE personas
-    ADD COLUMN usuario_id INT NOT NULL;
+    ADD usuario_id INT NOT NULL;
 
 -- Agregar la clave foránea para 'usuario_id' en personas
 ALTER TABLE personas
@@ -19,7 +19,7 @@ ALTER TABLE personas
 -- Alteraciones para la tabla empresas
 -- Agregar la columna 'usuario_id'
 ALTER TABLE empresas
-    ADD COLUMN usuario_id INT NOT NULL;
+    ADD usuario_id INT NOT NULL;
 
 -- Agregar la clave foránea para 'usuario_id' en empresas
 ALTER TABLE empresas
