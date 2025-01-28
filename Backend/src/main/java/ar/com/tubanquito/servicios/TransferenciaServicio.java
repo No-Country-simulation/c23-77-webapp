@@ -38,14 +38,22 @@ public class TransferenciaServicio {
     private UsuarioRepositorio usuarioRepositorio;
 
     @Autowired
-    private CuentaBancariaMapper mapper;
-
-    @Autowired
     private TransferenciaMapper transferenciaMapper;
 
     public List<Transferencia> getTransferenciasByIdUsuario(Long idUsuario, Long idCuenta) {
 
-        return null;
+        List<CuentaBancaria> cuentasBancarias = cuentas.findByUsuarioId(idUsuario);
+        CuentaBancaria account = cuentasBancarias.stream().filter(new Predicate<CuentaBancaria>() {
+
+            @Override
+            public boolean test(CuentaBancaria t) {
+                return t.getId() == idCuenta;
+            }
+
+
+        }).findFirst().orElseThrow(() -> new BankAccountNotFoundException("Account not found"));
+
+        return transferenciaRepositorio.findByCuentaOrgien(account);
 
     }
 
