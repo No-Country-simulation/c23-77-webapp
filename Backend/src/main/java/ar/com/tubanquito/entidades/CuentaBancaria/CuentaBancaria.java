@@ -12,6 +12,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.UUID;
 
 import ar.com.tubanquito.entidades.Empresa;
 import ar.com.tubanquito.entidades.HistorialTransacciones;
@@ -52,6 +53,9 @@ public class CuentaBancaria {
     @ManyToMany(mappedBy = "cuentasBancarias") // Nota: Corregido para que coincida
     private Set<Empresa> empresas;
 
-    @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
-    private Set<HistorialTransacciones> historialTransacciones;
+   @Column(name = "cbu", nullable = false)
+   private Long cbu;
+
+   @Column(name = "alias")
+   private String alias;
 }

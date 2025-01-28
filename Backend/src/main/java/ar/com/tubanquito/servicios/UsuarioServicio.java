@@ -50,7 +50,7 @@ public class UsuarioServicio {
 
         usuario.setRol(Rol.PARTICULAR); // Asignar un rol por defecto
         Usuario guardado = usuarioRepositorio.save(usuario);
-
+        
         return usuarioMapper.toResponse(guardado);
     }
 

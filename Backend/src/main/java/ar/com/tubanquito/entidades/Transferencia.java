@@ -3,6 +3,7 @@ package ar.com.tubanquito.entidades;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,13 +20,14 @@ import ar.com.tubanquito.entidades.CuentaBancaria.CuentaBancaria;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Transferencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(precision = 15, scale = 2, nullable = false)
-    private BigDecimal saldo;
+    @Column(precision = 15, nullable = false)
+    private Double montoTransferido;
 
     @ManyToOne
     @JoinColumn(name = "cuenta_origen", nullable = false)
@@ -36,7 +38,7 @@ public class Transferencia {
     private CuentaBancaria cuentaDestino;
 
     @Column(nullable = false)
-    private LocalDate fecha;
+    private LocalDate fechaCreacion;
 
     @Column(nullable = false)
     private String estado;
