@@ -1,71 +1,37 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./hooks/context/authContext";
-import { useState } from "react";
+import { FormProvider } from "./hooks/context/formContext";
+import FormularioMultipaso from "./routes/FormularioMultipaso";
 import Login from "./components/Login";
 import Registro from "./components/Registro";
-import DatosPersonales from "./components/DatosPersonales";
-import DomicilioActual from "./components/DomicilioActual";
-import Confirmacion from "./components/Confirmacion";
 import Dashboard from "./components/Dashboard";
+import Home from "./components/Home"; // Importa el componente Home
+import ProtectedRoute from "./routes/ProtectedRoute";
 import "./App.css";
 
 function App() {
-  const [persona, setPersona] = useState({
-    nombre: "",
-    apPaterno: "",
-    apMaterno: "",
-    fechaNacimiento: "",
-    lugarNacimiento: "",
-    sexo: "",
-    codigoPostal: "",
-    pais: "",
-    estado: "",
-    municipio: "",
-    calle: "",
-    numeroInt: "",
-    numeroExt: "",
-  });
-
-  const siguientePaso = (ruta) => {
-    window.location.href = ruta;
-  };
-
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/registro" element={<Registro />} />
-          {/* Flujo de creación de Persona */}
-          <Route
-            path="/persona/:usuarioId"
-            element={
-              <DatosPersonales
-                persona={persona}
-                setPersona={setPersona}
-                siguientePaso={() => siguientePaso("/domicilio")}
-              />
-            }
-          />
-          <Route
-            path="/domicilio"
-            element={
-              <DomicilioActual
-                persona={persona}
-                setPersona={setPersona}
-                siguientePaso={() => siguientePaso("/confirmacion")}
-              />
-            }
-          />
-          <Route
-            path="/confirmacion"
-            element={<Confirmacion persona={persona} />}
-          />
-          <Route path="/dashboard" element={<Dashboard />} />
-          {/* Redirección por defecto */}
-          <Route path="*" element={<Login />} />
-        </Routes>
-      </Router>
+      <FormProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} /> {/* Ruta para Home */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/registro" element={<Registro />} />
+            <Route path="/formulario" element={<FormularioMultipaso />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<Home />} />{" "}
+            {/* Redirigir rutas no encontradas a Home */}
+          </Routes>
+        </Router>
+      </FormProvider>
     </AuthProvider>
   );
 }

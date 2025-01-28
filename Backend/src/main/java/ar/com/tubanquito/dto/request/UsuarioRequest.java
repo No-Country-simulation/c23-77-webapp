@@ -11,7 +11,7 @@ public record UsuarioRequest(
         String email,
 
         @NotBlank(message = "La contraseña no puede estar vacía")
-        @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
+        @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
         String contrasena,
 
         @NotBlank(message = "El teléfono no puede estar vacío")

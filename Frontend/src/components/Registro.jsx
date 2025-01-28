@@ -2,6 +2,7 @@ import "./Registro.css"; // Similar a Login.css
 import registroImg from "../assets/login-img.png"; // Cambia la imagen según necesites
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "../hooks/context/formContext"; // Importar el contexto
 import api from "../api/api";
 
 function Registro() {
@@ -12,6 +13,7 @@ function Registro() {
     rol: "PARTICULAR", // Rol por defecto
   });
   const [error, setError] = useState("");
+  const { setPersona } = useForm(); // Obtener el setter del contexto
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,18 +26,46 @@ function Registro() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Resetea el mensaje de error antes de intentar el registro
+    setError("");
 
     try {
       const response = await api.post("/usuarios/registro", usuario);
       const usuarioId = response.data.id;
-      navigate(`/persona/${usuarioId}`); // Redirige al formulario de Persona
-    } catch (error) {
-      // Verifica si el error tiene una respuesta del backend
-      if (error.response && error.response.data) {
-        setError(error.response.data.message || "Ocurrió un error inesperado."); // Captura el mensaje del backend
+
+      if (usuario.rol === "PARTICULAR") {
+        // Actualiza el contexto global con el usuarioId
+        await new Promise((resolve) => {
+          setPersona((prevPersona) => {
+            resolve();
+            return {
+              ...prevPersona,
+              usuarioId: usuarioId, // Transfiere el ID al formulario
+            };
+          });
+        });
+
+        // Redirige al FormularioMultipaso
+        navigate("/formulario");
       } else {
-        setError("No se pudo completar el registro. Inténtalo nuevamente."); // Error genérico
+        // Si es Admin o Empleado, redirige al Dashboard
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        const { errors } = error.response.data;
+
+        if (errors) {
+          const formattedErrors = Object.entries(errors)
+            .map(([field, message]) => `${field}: ${message}`)
+            .join(". ");
+          setError(formattedErrors);
+        } else {
+          setError(
+            error.response.data.message || "Ocurrió un error inesperado."
+          );
+        }
+      } else {
+        setError("No se pudo completar el registro. Inténtalo nuevamente.");
       }
     }
   };
@@ -102,7 +132,7 @@ function Registro() {
                 onChange={handleChange}
                 required
               >
-                <option value="PARTICULAR">Particular</option>
+                <option value="PARTICULAR">Cliente</option>
                 <option value="ADMIN">Admin</option>
                 <option value="EMPLEADO">Empleado</option>
               </select>
@@ -119,6 +149,16 @@ function Registro() {
             </div>
           </form>
         </div>
+        <div className="switch-container">
+          <p>¿Ya tienes una cuenta?</p>
+          <button
+            className="btn btn-secondary"
+            onClick={() => navigate("/login")}
+          >
+            Iniciar sesión
+          </button>
+        </div>
+
         <div className="img-registro">
           <img src={registroImg} alt="Registro" />
         </div>

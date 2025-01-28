@@ -27,11 +27,12 @@ public class GlobalExceptionHandler {
         });
 
         response.put("status", HttpStatus.BAD_REQUEST.value());
-        response.put("message", "Errores de validacion");
+        response.put("message", "Existen errores en los campos proporcionados. Por favor, verifica los datos.");
         response.put("errors", errors);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
 
     /**
      * Manejo de IllegalArgumentException, que usas para indicar errores logicos
@@ -64,10 +65,27 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleAllExceptions(Exception ex) {
         ex.printStackTrace(); // Log completo en servidor
+        String errorId = java.util.UUID.randomUUID().toString(); // Identificador único
         Map<String, Object> response = new HashMap<>();
         response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.put("error", "Error interno");
-        response.put("message", ex.getMessage());
+        response.put("message", "Ocurrió un error inesperado. Por favor, contacte al soporte.");
+        response.put("errorId", errorId);
+
+        // Opcional: Loguear el errorId para referencia futura
+        System.err.println("Error ID: " + errorId);
+
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
+
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, Object>> handleRuntimeException(RuntimeException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", HttpStatus.BAD_REQUEST.value());
+        response.put("error", "Error de validación personalizada");
+        response.put("message", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
 }

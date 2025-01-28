@@ -38,3 +38,14 @@ button {
 button:hover {
   background-color: var(--900);
 }
+
+.error-message {
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 2px solid red;
+  border-radius: 5px;
+  color: red;
+  font-weight: bold;
+  padding: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}

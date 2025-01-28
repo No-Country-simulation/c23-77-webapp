@@ -1,7 +1,9 @@
-import PropTypes from "prop-types";
+import { useForm } from "../hooks/context/formContext";
 import "./DomicilioActual.css";
 
-function DomicilioActual({ persona, setPersona, siguientePaso, pasoAnterior }) {
+function DomicilioActual({ siguientePaso, pasoAnterior }) {
+  const { persona, setPersona } = useForm();
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     setPersona({
@@ -15,52 +17,51 @@ function DomicilioActual({ persona, setPersona, siguientePaso, pasoAnterior }) {
       <div className="form-container">
         <div className="form-content">
           <h2>Domicilio Actual</h2>
-          <form className="col g-3">
-            <div className="col-md-10">
-              <input
-                type="text"
-                id="codigoPostal"
-                placeholder="Código Postal"
-                className="form-control"
-                value={persona.codigoPostal}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="col-md-10">
-              <input
-                type="text"
-                id="pais"
-                placeholder="País"
-                className="form-control mt-2"
-                value={persona.pais}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="col-md-10">
-              <input
-                type="text"
-                id="estado"
-                placeholder="Estado"
-                className="form-control mt-2"
-                value={persona.estado}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="col-md-10">
-              <input
-                type="text"
-                id="municipio"
-                placeholder="Municipio"
-                className="form-control mt-2"
-                value={persona.municipio}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="col-md-10 mt-3 d-flex justify-content-between">
+          <form>
+            <input
+              type="text"
+              id="calle"
+              placeholder="Calle"
+              className="form-control"
+              value={persona.calle || ""}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              id="municipio"
+              placeholder="Ciudad/Municipio"
+              className="form-control mt-2"
+              value={persona.municipio || ""}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              id="estado"
+              placeholder="Estado/Provincia"
+              className="form-control mt-2"
+              value={persona.estado || ""}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              id="codigoPostal"
+              placeholder="Código Postal"
+              className="form-control mt-2"
+              value={persona.codigoPostal || ""}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              id="pais"
+              placeholder="País"
+              className="form-control mt-2"
+              value={persona.pais || ""}
+              onChange={handleChange}
+              required
+            />
+            <div className="button-group mt-3">
               <button
                 type="button"
                 className="btn btn-secondary"
@@ -82,12 +83,5 @@ function DomicilioActual({ persona, setPersona, siguientePaso, pasoAnterior }) {
     </div>
   );
 }
-
-DomicilioActual.propTypes = {
-  persona: PropTypes.object.isRequired,
-  setPersona: PropTypes.func.isRequired,
-  siguientePaso: PropTypes.func.isRequired,
-  pasoAnterior: PropTypes.func.isRequired,
-};
 
 export default DomicilioActual;

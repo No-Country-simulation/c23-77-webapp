@@ -31,11 +31,9 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
                     // Endpoints públicos
-                    req.requestMatchers("/login", "/").permitAll();
-                    req.requestMatchers(HttpMethod.POST, "/personas", "/usuarios/registro").permitAll();
-                    req.requestMatchers(HttpMethod.GET, "/personas", "/usuarios/registro").permitAll();
+                    req.requestMatchers(HttpMethod.POST,"/login", "/").permitAll();
+                    req.requestMatchers(HttpMethod.POST,"/personas", "/usuarios/registro").permitAll();
                     req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
-                    req.requestMatchers(HttpMethod.GET, "/persona/**").permitAll(); // Si deben ser públicos
 
                     // Endpoints protegidos
                     req.requestMatchers("/dashboard").authenticated();

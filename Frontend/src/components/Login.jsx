@@ -1,8 +1,9 @@
 import "./Login.css";
 import loginImg from "../assets/login-img.png";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api/api";
-import { useAuth } from "../hooks/context/authContext"; // Asegúrate de usar el hook correcto
+import { useAuth } from "../hooks/context/authContext";
 
 function Login() {
   const [login, setLogin] = useState({
@@ -10,8 +11,9 @@ function Login() {
     password: "",
   });
 
-  const [error, setError] = useState(""); // Manejo de errores
-  const { setIsAuth } = useAuth(); // Accede al contexto para actualizar la autenticación
+  const [error, setError] = useState("");
+  const { setIsAuth } = useAuth();
+  const navigate = useNavigate(); // Hook para navegación
 
   const cleanForm = () => {
     setLogin({
@@ -31,7 +33,8 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Resetea errores antes de intentar el login
+    setError("");
+
     try {
       const response = await api.post("/login", {
         email: login.username,
@@ -40,15 +43,14 @@ function Login() {
 
       const { jwTtoken } = response.data;
 
-      // Guarda el token y establece la autenticación
       localStorage.setItem("token", jwTtoken);
       setIsAuth(true);
 
       cleanForm();
-      window.location.href = "/dashboard"; // Redirige al dashboard tras iniciar sesión
+      window.location.href = "/dashboard";
     } catch (error) {
       console.error("Error durante el inicio de sesión:", error);
-      setError("Credenciales inválidas. Por favor, inténtalo de nuevo."); // Maneja errores
+      setError("Credenciales inválidas. Por favor, inténtalo de nuevo.");
     }
   };
 
@@ -97,8 +99,15 @@ function Login() {
               </button>
             </div>
           </form>
-          <a href="#">Olvidé mi contraseña</a>
-          <h3>¡Nunca compartas los datos confidenciales de tus cuentas!</h3>
+          <div className="switch-container">
+            <p>¿No tienes cuenta?</p>
+            <button
+              className="btn btn-secondary"
+              onClick={() => navigate("/registro")}
+            >
+              Crear cuenta
+            </button>
+          </div>
         </div>
         <div className="img-login">
           <img src={loginImg} alt="" />

@@ -1,16 +1,51 @@
-import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "../hooks/context/formContext";
 import "./Confirmacion.css";
 import api from "../api/api";
+import { useState } from "react";
 
-function Confirmacion({ persona, pasoAnterior }) {
+function Confirmacion({ pasoAnterior }) {
+  const { persona } = useForm(); // Obtener persona desde el contexto
+  const navigate = useNavigate(); // Hook para redirigir
+  const [error, setError] = useState(""); // Estado para almacenar errores
+
   const handleConfirm = async () => {
     try {
-      console.log("Enviando datos al backend:", persona);
-      await api.post("/personas", persona); // Cambia esta URL según tu backend
+      const personaRequest = {
+        nombre: persona.nombre,
+        apPaterno: persona.apPaterno,
+        apMaterno: persona.apMaterno,
+        sexo: persona.sexo,
+        lugarNacimiento: persona.lugarNacimiento || null, // Opcional
+        fechaNacimiento: persona.fechaNacimiento,
+        dni: persona.dni,
+        usuarioId: persona.usuarioId || null, // Relación opcional
+        direccion: {
+          calle: persona.calle,
+          municipio: persona.municipio,
+          estado: persona.estado,
+          pais: persona.pais,
+          codigoPostal: persona.codigoPostal,
+        },
+      };
+
+      console.log("Enviando datos al backend:", personaRequest);
+      await api.post("/personas", personaRequest); // Cambia esta URL según tu backend
       alert("Datos enviados correctamente.");
+
+      // Redirige al dashboard después del registro exitoso
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error al enviar los datos:", error);
-      alert("Hubo un problema al enviar los datos.");
+
+      if (error.response && error.response.data) {
+        // Captura el mensaje específico del backend
+        const backendMessage =
+          error.response.data.message || "Ocurrió un problema.";
+        setError(backendMessage);
+      } else {
+        setError("No se pudo completar el registro. Inténtalo nuevamente.");
+      }
     }
   };
 
@@ -20,6 +55,11 @@ function Confirmacion({ persona, pasoAnterior }) {
         <div className="form-content">
           <h2>Confirmación</h2>
           <p>Revisa tus datos antes de finalizar:</p>
+          {error && (
+            <div className="error-message">
+              <p>{error}</p>
+            </div>
+          )}
           <ul>
             <li>Nombre: {persona.nombre || "No proporcionado"}</li>
             <li>Apellido Paterno: {persona.apPaterno || "No proporcionado"}</li>
@@ -33,26 +73,27 @@ function Confirmacion({ persona, pasoAnterior }) {
               Lugar de Nacimiento:{" "}
               {persona.lugarNacimiento || "No especificado"}
             </li>
+            <li>DNI: {persona.dni || "No proporcionado"}</li>
             <li>
               Dirección: {persona.calle || "No especificada"},{" "}
-              {persona.municipio || ""}
+              {persona.municipio || "No especificado"},{" "}
+              {persona.estado || "No especificado"},{" "}
+              {persona.pais || "No especificado"}
             </li>
+            <li>Código Postal: {persona.codigoPostal || "No especificado"}</li>
           </ul>
-          <button type="button" onClick={pasoAnterior}>
-            Regresar
-          </button>
-          <button type="button" onClick={handleConfirm}>
-            Finalizar
-          </button>
+          <div className="button-group">
+            <button type="button" onClick={pasoAnterior}>
+              Regresar
+            </button>
+            <button type="button" onClick={handleConfirm}>
+              Finalizar
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-Confirmacion.propTypes = {
-  persona: PropTypes.object.isRequired,
-  pasoAnterior: PropTypes.func.isRequired,
-};
 
 export default Confirmacion;
